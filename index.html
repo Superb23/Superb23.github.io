@@ -73,6 +73,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-位运算" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/11/19/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="article-date">
+  <time class="dt-published" datetime="2021-11-19T11:42:32.000Z" itemprop="datePublished">2021-11-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/11/19/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="与、或、非、异或"><a href="#与、或、非、异或" class="headerlink" title="与、或、非、异或"></a>与、或、非、异或</h4><ul>
+<li>与&amp;: 都为1，则结果为1</li>
+<li>或|: 有1，则结果为1</li>
+<li>非~: 取反</li>
+<li>异或^: 不同，则为1；相同，则为0<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">异或小技巧： x^x = 0</span><br><span class="line">			x^0 = 1</span><br><span class="line">			x^1 = ~x</span><br><span class="line">			异或运满足结合律、交换律、自反律</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="移位"><a href="#移位" class="headerlink" title="移位"></a>移位</h4><ul>
+<li><blockquote>
+<blockquote>
+<p>: 右移，无符号类型的强制补0，有符号类型的用<em>符号位</em>填充高位（正：0； 负：1）</p>
+</blockquote>
+</blockquote>
+</li>
+<li><blockquote>
+<blockquote>
+<blockquote>
+<p>: 右移，用0填充高位</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li>&lt;&lt;: 左移，高位舍弃，低位补0</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果移的位数超过该类型的位数则，取模（类型位数）</span><br><span class="line"></span><br><span class="line">32位(int a): a&gt;&gt;35 和 a&gt;&gt;3 是相同的</span><br></pre></td></tr></table></figure>
+<h4 id="位运算的应用"><a href="#位运算的应用" class="headerlink" title="位运算的应用"></a>位运算的应用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">乘法计算： 2*4 = 8</span><br><span class="line">          2&lt;&lt;2 == 8 //左移n位乘以2^n(注意位数，判断是否需要mod)</span><br><span class="line"></span><br><span class="line">判断奇偶： int n = 86 (00000000 00000000 00000000 01010110)</span><br><span class="line">		  n &amp; 1 == 0 //偶数</span><br><span class="line">		  n &amp; 1 == 1 //奇数</span><br><span class="line">		  比较n的最后一位和1，如果n的最后一位为1则为奇数，如果n的最后一位为0则为偶数（n和1的前面位进行&amp;运算都为0，因为1只有最后一位为1，其余为都是0）</span><br><span class="line"></span><br><span class="line">判断二进制第k位为（0、1）：</span><br><span class="line">		  (n&gt;&gt;(k-1)) &amp; 1 == 1 ? 1 : 0;               k：为右数第k位</span><br><span class="line">		或(1&lt;&lt;(k-1)) &amp; n == 1 ? 1 : 0;</span><br><span class="line"></span><br><span class="line">交换两个变量的值：</span><br><span class="line">		  a = a^b;</span><br><span class="line">		  b = a^b;</span><br><span class="line">		  a = a^b;</span><br><span class="line"></span><br><span class="line">求绝对值：</span><br><span class="line">		  int a;</span><br><span class="line">		  ((a&gt;&gt;31)^a) + (a&gt;&gt;&gt;31);</span><br><span class="line">	</span><br><span class="line">	注意：负数的二进制表示是由该数的绝对值，取反码再末位加1</span><br><span class="line">	例如-1， 先取1的原码：00000000 00000000 00000000 00000001，</span><br><span class="line">			得反码： 11111111 11111111 11111111 11111110，</span><br><span class="line">			最后得补码： 11111111 11111111 11111111 11111111，即-1在计算机里用二进制表示结果</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/19/%E4%BD%8D%E8%BF%90%E7%AE%97/" data-id="ckw6eygmq0000s8uj11flgie5" data-title="位运算" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-markdown基础使用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/11/12/markdown%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" class="article-date">
@@ -274,6 +336,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/11/19/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
+          </li>
         
           <li>
             <a href="/2021/11/12/markdown%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">markdown基础使用</a>
